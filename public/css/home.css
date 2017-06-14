@@ -1,0 +1,63 @@
+/* 
+Home CSS
+Includes CSS for home page
+*/
+
+.jumbotron {
+	padding: 30px 0;
+	width: 100%;
+	background-color: #45D045;
+}
+#welcome-title {
+	color: white;
+	font-family: 'Lato';
+	text-align: center;
+}
+#welcome-title > #welcome-title-name {
+	font-size: 2.5em;
+	font-weight: 400;
+}
+#welcome-title > #welcome-title-sub {
+	font-size: 1.5em;
+	font-weight: 300;
+}
+.post {
+	padding: 15px 0;
+	width: 100%;
+	border-bottom: 1px solid #DFDFDF;
+}
+.post-link, .post-link:visited {
+	text-decoration: none;
+	color: #454545;
+}
+.post-link:hover, .post-link:active {
+	color: #45D045;
+}
+.sidebar {
+	margin-top: 20px;
+	width: 100%;
+}
+
+@media (min-width: 600px) {
+
+	.jumbotron {
+		padding: 50px 0;
+	}
+	#welcome-title {
+		text-align: left;
+	}
+	.post-column {
+		width: 700px;
+		margin-right: 20px;
+		float: left;
+	}
+	.post {
+		width: 650px;
+	}
+	.sidebar {
+		box-sizing: border-box;
+		width: 280px;
+		float: right;
+	}
+
+}

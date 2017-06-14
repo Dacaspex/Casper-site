@@ -1,0 +1,66 @@
+/* 
+
+Override CSS
+All standard that should be overriden are placed here
+
+*/
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #FAF9FC;
+}
+
+p {
+	margin: 10px 0;
+	font-family: 'Lato';
+	color: #373a3c;
+	line-height: 24px;
+}
+span {
+	margin: 5px 0;
+	font-family: 'Lato';
+	color: #373a3c;
+	line-height: 24px;
+}
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #DFDFDF;
+    margin: 1em 0;
+    padding: 0; 
+}
+
+/* Headers */
+h1 {
+	padding: 10px 0;
+	margin: 0;
+	font-family: 'Open Sans';
+	font-weight: 400;
+	font-size: 1.7em;
+	color: #454545;
+}
+h2 {
+	padding: 10px 0;
+	margin: 0;
+	font-family: 'Open Sans';
+	font-weight: 400;
+	font-size: 1.5em;
+	color: #454545;
+}
+h6 {
+	font-family: 'Lato';
+	font-weight: 300;
+	font-size: 0.8em;
+	padding: 0;
+	margin: 0;
+}
+
+@media (min-width: 600px) {
+
+	h1 {
+		font-size: 2em;
+	}
+
+}
