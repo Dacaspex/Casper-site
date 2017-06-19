@@ -1,3 +1,6 @@
+
+
+<!-- Footer -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -11,8 +14,9 @@
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/override.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ asset('css/navbar.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ asset('css/footer.css') }}">
 
-		<!-- Get page specific CSS -->
+		<!-- Page specific CSS -->
 		@yield('css')
 
 		<!-- Fonts -->
@@ -29,6 +33,9 @@
 
 		<!-- Main content of the page -->
 		@yield('content')
+
+		<!-- Footer -->
+		@include('includes.footer')
 
 	</body>
 
