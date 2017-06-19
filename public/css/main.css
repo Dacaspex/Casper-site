@@ -19,6 +19,9 @@
 	color: #8c5932;
 	font-family: 'Lato';
 }
+.text-success {
+	color: #4CAF50;
+}
 
 @media (min-width: 600px) {
 
