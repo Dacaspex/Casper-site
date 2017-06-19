@@ -3,6 +3,22 @@
 .wrapper {
 	padding: 15px;
 }
+.btn {
+	width: 150px;
+}
+.btn-success {
+	background-color: #45D045;
+	color: white;
+}
+.alert {
+	box-sizing: border-box;
+	width: 100%;
+	padding: 20px;
+	margin: 10px 0;
+	background-color: #ffddc3;
+	color: #8c5932;
+	font-family: 'Lato';
+}
 
 @media (min-width: 600px) {
 

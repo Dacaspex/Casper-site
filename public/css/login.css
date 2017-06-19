@@ -1,0 +1,12 @@
+/* Login CSS */
+
+
+
+@media (min-width: 600px) {
+
+	.login-form {
+		margin: 0 auto;
+		width: 400px;
+	}
+
+}

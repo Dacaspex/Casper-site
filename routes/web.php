@@ -14,3 +14,11 @@
 Route::get('/', 'HomeController');
 
 Route::get('/post/{id}', 'PostController');
+
+Route::get('/posts/create', 'PostController@create');
+
+Route::post('/posts', 'PostController@store');
+
+Route::get('/login', 'LoginController');
+
+Route::post('/login', 'LoginController@login');

@@ -8,7 +8,15 @@
 
 <!-- Main content of home page -->
 <div class="wrapper">
-	<h1>{{ $post->title }}</h1>
+	<div class="row">
+		<div class="post-column">
+			<h1>{{ $post->title }}</h1>
+			<h6>{{ $post->created_at }}</h6>
+			<p>
+				{!! nl2br(e($post->body)) !!}
+			</p>
+		</div>
+	</div>
 </div>
 
 @endsection
