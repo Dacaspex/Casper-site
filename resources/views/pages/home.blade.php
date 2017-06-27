@@ -8,6 +8,7 @@
 
 <!-- Welcome jumbotron -->
 <div class="jumbotron">
+	<canvas id="canvas"></canvas>
 	<div class="wrapper">
 		<div id="welcome-title">
 			<div id="welcome-title-name">
@@ -49,4 +50,8 @@
 	</div>
 </div>
 
+@endsection
+
+@section('javascript')
+<script src="{{ asset('js/jumbotron.js') }}"></script>
 @endsection
