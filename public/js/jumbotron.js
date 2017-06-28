@@ -2,46 +2,112 @@
  * Jumbotron javascript module code
  */
 
-// Create canvas
-var canvas = document.getElementById("canvas");
+ // Global vaariables
+var canvas;
+var context;
+var width;
+var height;
+var requestAnimationFrame;
+var nodes = [];
+var amountOfNodes;
 
-// Fix percentage width/height to actual integer dimensions
-canvas.width = canvas.clientWidth;
-canvas.height = canvas.clientHeight;
+/**
+ * Fires when window has loaded
+ */
+window.onload = function() {
+    init();
+    createNodes();
+    update();
+}
 
-// Get context and information
-var ctx = canvas.getContext("2d");
-var width = canvas.width;
-var height = canvas.height;
+/**
+ * Node object
+ * x and y coordinates represent a percentage of the total width and height of
+ * the canvas
+ */
+function Node(x, y, radius) {
+    this.x = x;
+    this.y = y;
+    this.speedx = (Math.random() - 0.5) / 500;
+    this.speedy = (Math.random() - 0.5) / 500;
+    this.color = "#ffffff";
+    this.radius = radius;
+    this.draw = function(context) {
+        // Calculate actual x and y
+        _x = width * this.x;
+        _y = height * this.y;
 
-// Animation handler
-var requestAnimationFrame = window.requestAnimationFrame ||
+        // Begin drawing circle
+        context.beginPath();
+        context.arc(_x, _y, this.radius, 0, Math.PI * 2, false);
+        context.closePath();
+        context.fillStyle = this.color;
+        context.fill();
+    };
+    this.update = function() {
+        this.x += this.speedx;
+        this.y += this.speedy;
+        if (this.x <= 0 || this.x >= 1) {
+            this.x = Math.random();
+        };
+        if (this.y <= 0 || this.y >= 1) {
+            this.y = Math.random();
+        }
+    }
+}
+
+/**
+ * Initialises the animation
+ */
+function init() {
+
+    // Create canvas
+    canvas = document.getElementById("canvas");
+
+    // Fix percentage width/height to actual integer dimensions
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    // Get context and information
+    context = canvas.getContext("2d");
+    width = canvas.width;
+    height = canvas.height;
+
+    // Animation handler
+    requestAnimationFrame = window.requestAnimationFrame ||
                             window.mozRequestAnimationFrame ||
                             window.webkitRequestAnimationFrame ||
                             window.msRequestAnimationFrame;
 
-// Simple draw function
-function draw() {
+}
 
-    ctx.clearRect(0, 0, width, height);
+function createNodes() {
 
-    // Color the background
-    ctx.fillStyle = "rgba(0, 0, 0, 0)";
-    ctx.fillRect(0, 0, width, height);
-     
-    // Begin drawing circle
-    ctx.beginPath();
-     
-    var radius = 2;
-    ctx.arc(100, 50, radius, 0, Math.PI * 2, false);
-    ctx.closePath();
-     
-    // Color the cirlce
-    ctx.fillStyle = "#dbdbdb";
-    ctx.fill();
+    amountOfNodes = (width * height) / 5000;
 
-    requestAnimationFrame(draw);
+    for (i = 0; i < amountOfNodes; i++) {
+        x = Math.random();
+        y = Math.random();
+        radius = Math.floor(Math.random() * (2 - 1 + 1)) + 1;
+        node = new Node(x, y, radius);
+        nodes.push(node);
+    }
 
 }
 
-draw();
+function update() {
+
+    // Clear canvas
+    context.clearRect(0, 0, width, height);
+    context.fillStyle = "rgba(0, 0, 0, 0)";
+    context.fillRect(0, 0, width, height);
+
+    // Update and draw
+    for (i = 0; i < nodes.length; i++) {
+        nodes[i].update();
+        nodes[i].draw(context);
+    }
+
+    requestAnimationFrame(update);
+
+}
