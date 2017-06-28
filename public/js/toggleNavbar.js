@@ -1,7 +1,7 @@
 var breakPointValue = 600;
 
 /**
-* This function toggles the navigation menu for mobile devices when the hamburger icon 
+* This function toggles the navigation menu for mobile devices when the hamburger icon
 * has been clicked. This is only when the screen is smaller than the breakPointValue.
 */
 function toggleMobileNavigation() {
