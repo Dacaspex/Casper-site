@@ -18,6 +18,8 @@ var amountOfNodes;
 var edges = [];
 var distanceThreshold;
 
+var time = 0;
+
 /**
  * Fires when window has loaded
  */
@@ -70,8 +72,8 @@ function Node(x, y, radius) {
      */
     this.draw = function(context) {
         // Calculate actual x and y
-        _x = width * this.x;
-        _y = height * this.y;
+        _x = Math.round(width * this.x);
+        _y = Math.round(height * this.y);
 
         // Begin drawing circle
         context.beginPath();
@@ -111,7 +113,7 @@ function Edge(startNode, endNode) {
      */
     this.calculateAlpha = function() {
         nodeDistance = this.startNode.distanceTo(this.endNode);
-        this.alpha = nodeDistance / NODE_MAX_DISTANCE;
+        this.alpha = (NODE_MAX_DISTANCE - nodeDistance) / NODE_MAX_DISTANCE;
     }
 
     /**
@@ -119,10 +121,10 @@ function Edge(startNode, endNode) {
      */
     this.draw = function(context) {
         // Calculate coordinates
-        xStart = startNode.x * width;
-        yStart = startNode.y * height;
-        xEnd = endNode.x * width;
-        yEnd = endNode.y * height;
+        xStart = Math.round(startNode.x * width);
+        yStart = Math.round(startNode.y * height);
+        xEnd = Math.round(endNode.x * width);
+        yEnd = Math.round(endNode.y * height);
 
         // Calculate new alpha value
         this.calculateAlpha();
@@ -186,6 +188,9 @@ function createNodes() {
  * Updates all values and draws a new image on the canvas
  */
 function update() {
+
+    // console.log(new Date().getTime() - time);
+    time = new Date().getTime();
 
     // Clear canvas
     context.clearRect(0, 0, width, height);

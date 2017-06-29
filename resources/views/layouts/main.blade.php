@@ -1,5 +1,3 @@
-
-
 <!-- Footer -->
 <!DOCTYPE html>
 <html>
