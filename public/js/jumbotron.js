@@ -3,9 +3,11 @@
  */
 
 // Constants
-NODE_DENSITY = 10000;
-COLOR = "rgb(139, 255, 154)";
-NODE_MAX_DISTANCE = 0.5;
+INVERSE_NODE_DENSITY = 10000;
+NODE_COLOR = "rgb(139, 255, 154)";
+EDGE_COLOR = "rgb(139, 255, 154)";
+NODE_MAX_DISTANCE = 0.8;
+NODE_RADIUS = 2;
 
  // Global vaariables
 var canvas;
@@ -17,8 +19,6 @@ var nodes = [];
 var amountOfNodes;
 var edges = [];
 var distanceThreshold;
-
-var time = 0;
 
 /**
  * Fires when window has loaded
@@ -47,9 +47,9 @@ window.onresize = function() {
 function Node(x, y, radius) {
     this.x = x;
     this.y = y;
-    this.speedx = (Math.random() - 0.5) / (width / 2);
-    this.speedy = (Math.random() - 0.5) / (width / 2);
-    this.color = COLOR;
+    this.speedx = ((Math.random() * 0.4) - 0.2) / (width / 2);
+    this.speedy = ((Math.random() * 0.4) - 0.2) / (height / 2);
+    this.color = NODE_COLOR;
     this.radius = radius;
 
     /**
@@ -105,15 +105,15 @@ function Node(x, y, radius) {
 function Edge(startNode, endNode) {
     this.startNode = startNode;
     this.endNode = endNode;
-    this.color = COLOR;
+    this.color = EDGE_COLOR;
     this.alpha = 0;
 
     /**
      * Calculates the alpha value
      */
     this.calculateAlpha = function() {
-        nodeDistance = this.startNode.distanceTo(this.endNode);
-        this.alpha = (NODE_MAX_DISTANCE - nodeDistance) / NODE_MAX_DISTANCE;
+        nodeDistance = this.startNode.distanceTo(this.endNode, true);
+        this.alpha = (distanceThreshold - nodeDistance) / distanceThreshold;
     }
 
     /**
@@ -133,7 +133,7 @@ function Edge(startNode, endNode) {
         context.beginPath();
         context.moveTo(xStart, yStart);
         context.lineTo(xEnd, yEnd);
-        context.strokeStyle = convertRGB(this.color, this.alpha / 100);
+        context.strokeStyle = convertRGB(this.color, this.alpha);
         context.stroke();
     }
 }
@@ -142,7 +142,6 @@ function Edge(startNode, endNode) {
  * Initialises the animation
  */
 function init() {
-
     // Get canvas
     canvas = document.getElementById("canvas");
 
@@ -163,7 +162,6 @@ function init() {
 
     // Calculate distance threshold
     distanceThreshold = Math.min(width, height) * NODE_MAX_DISTANCE;
-
 }
 
 /**
@@ -171,27 +169,21 @@ function init() {
  * way, the screen won't be filled with too many nodes
  */
 function createNodes() {
-
-    amountOfNodes = (width * height) / NODE_DENSITY;
+    // Calculate the amount of nodes
+    amountOfNodes = (width * height) / INVERSE_NODE_DENSITY;
 
     for (i = 0; i < amountOfNodes; i++) {
         x = Math.random();
         y = Math.random();
-        radius = 2;
-        node = new Node(x, y, radius);
+        node = new Node(x, y, NODE_RADIUS);
         nodes.push(node);
     }
-
 }
 
 /**
  * Updates all values and draws a new image on the canvas
  */
 function update() {
-
-    // console.log(new Date().getTime() - time);
-    time = new Date().getTime();
-
     // Clear canvas
     context.clearRect(0, 0, width, height);
     context.fillStyle = "rgba(0, 0, 0, 0)";
@@ -212,38 +204,33 @@ function update() {
     }
 
     requestAnimationFrame(update);
-
 }
 
 /**
  * Update all edges. Remove and add new edges if required
  */
 function updateEdges() {
+    // Clear edges, cheaper than checking if edges should be removed since the
+    // next task is to identify new edges, in which we should check if existing
+    // edges already exist.
+    edges = [];
 
-    // Check existing edges if the distance between its nodes is still acceptable
-    for (i = 0; i < edges.length; i++) {
-        if (edges[i].startNode.distanceTo(edges[i].endNode, true) > distanceThreshold) {
-            edges.remove(edges[i]);
-            i--;
-        }
-    }
-
-    // Check if new edges should be created
+    // Loop through all node pairs
     for (i = 0; i < nodes.length; i++) {
         for (j = 0; j < nodes.length; j++) {
 
+            // Only distinct nodes are relevant
             if (nodes[i] == nodes[j]) {
                 continue;
             }
 
+            // Check if the distance is small enough to form an edge
             if (nodes[i].distanceTo(nodes[j], true) < distanceThreshold) {
                 edge = new Edge(nodes[i], nodes[j]);
                 edges.push(edge);
             }
-
         }
     }
-
 }
 
 /**
