@@ -1,4 +1,4 @@
-var breakPointValue = 600;
+var breakPointValue = 1000;
 
 /**
 * This function toggles the navigation menu for mobile devices when the hamburger icon

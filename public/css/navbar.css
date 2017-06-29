@@ -61,7 +61,7 @@ nav > .navbar > li > a:active {
 	background-color: #F0F0F0;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 1000px) {
 
 	nav {
 		display: block;

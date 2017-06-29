@@ -23,7 +23,7 @@
 	color: #4CAF50;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 1000px) {
 
 	.wrapper {
 		padding: 0;
