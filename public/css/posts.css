@@ -1,0 +1,27 @@
+/* Posts CSS */
+
+.post {
+	padding: 15px 0;
+	width: 100%;
+	border-bottom: 1px solid #DFDFDF;
+}
+.post-link, .post-link:visited {
+	text-decoration: none;
+	color: #454545;
+}
+.post-link:hover, .post-link:active {
+	color: #45D045;
+}
+
+@media (min-width: 1000px) {
+
+	.post-column {
+		width: 700px;
+		margin-right: 20px;
+		float: left;
+	}
+	.post {
+		width: 650px;
+	}
+
+}

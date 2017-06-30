@@ -9,7 +9,7 @@
 		</a>
 		<ul class="navbar">
 			<li><a href="/">Home</a></li>
-			<li><a href="#">Blog</a></li>
+			<li><a href="/posts">Blog</a></li>
 			<li><a href="#">Contact</a></li>
 			@if (Auth::check())
 				<li><a href="/logout">Logout</a></li>

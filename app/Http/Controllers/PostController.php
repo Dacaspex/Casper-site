@@ -10,11 +10,22 @@ class PostController extends Controller
 {
 
     /**
-     * Shows the home page
+     * Shows the index page for posts
      *
      * @return Respone
      */
-	public function __invoke($id)
+    public function __invoke() {
+        $posts = Post::orderBy('created_at', 'desc')
+            ->get();
+        return view('pages.posts.index')->with('posts', $posts);
+    }
+
+    /**
+     * Shows a single post
+     *
+     * @return Respone
+     */
+	public function show($id)
 	{
 		$post = Post::find($id);
 		return view('pages.posts.view')->with('post', $post);

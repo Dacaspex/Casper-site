@@ -4,12 +4,13 @@
 
 // Constants
 INVERSE_NODE_DENSITY = 10000;
-NODE_COLOR = "rgb(139, 255, 154)";
-EDGE_COLOR = "rgb(139, 255, 154)";
+NODE_COLOR = "rgb(86, 226, 125)";
+EDGE_COLOR = NODE_COLOR;
 NODE_MAX_DISTANCE = 0.8;
 NODE_RADIUS = 2;
+EDGE_WIDTH = 1;
 
- // Global vaariables
+ // Global variables
 var canvas;
 var context;
 var width;
@@ -44,13 +45,26 @@ window.onresize = function() {
  * x and y coordinates represent a percentage of the total width and height of
  * the canvas
  */
-function Node(x, y, radius) {
-    this.x = x;
-    this.y = y;
-    this.speedx = ((Math.random() * 0.4) - 0.2) / (width / 2);
-    this.speedy = ((Math.random() * 0.4) - 0.2) / (height / 2);
+function Node() {
+    this.x = 0;
+    this.y = 0;
+    this.speedx = 0;
+    this.speedy = 0;
+    this.age = 0;
     this.color = NODE_COLOR;
-    this.radius = radius;
+    this.radius = NODE_RADIUS;
+
+    /**
+     * Sets position, speed and age to new values, such that the Node appears to
+     * be new
+     */
+    this.spawn = function() {
+        this.x = Math.random();
+        this.y = Math.random();
+        this.speedx = ((Math.random() * 0.4) - 0.2) / width;
+        this.speedy = ((Math.random() * 0.4) - 0.2) / height;
+        this.age = 0;
+    }
 
     /**
      * Calculates the distance between this node and a specified node
@@ -87,13 +101,21 @@ function Node(x, y, radius) {
      * Updates the x and y coordinates of the node
      */
     this.update = function() {
+        // Update age
+        if (this.age <= 1) {
+            this.age += 0.01;
+        }
+
+        // Update x and y coordinates
         this.x += this.speedx;
         this.y += this.speedy;
+
+        // Don't let the point wander off the screen
         if (this.x <= 0 || this.x >= 1) {
-            this.x = Math.random();
+            this.spawn();
         };
         if (this.y <= 0 || this.y >= 1) {
-            this.y = Math.random();
+            this.spawn();
         }
     }
 }
@@ -106,6 +128,7 @@ function Edge(startNode, endNode) {
     this.startNode = startNode;
     this.endNode = endNode;
     this.color = EDGE_COLOR;
+    this.width = EDGE_WIDTH;
     this.alpha = 0;
 
     /**
@@ -113,7 +136,8 @@ function Edge(startNode, endNode) {
      */
     this.calculateAlpha = function() {
         nodeDistance = this.startNode.distanceTo(this.endNode, true);
-        this.alpha = (distanceThreshold - nodeDistance) / distanceThreshold;
+        nodeAgeMultiplier = this.startNode.age * this.endNode.age;
+        this.alpha = ((distanceThreshold - nodeDistance) / distanceThreshold) * nodeAgeMultiplier;
     }
 
     /**
@@ -133,7 +157,8 @@ function Edge(startNode, endNode) {
         context.beginPath();
         context.moveTo(xStart, yStart);
         context.lineTo(xEnd, yEnd);
-        context.strokeStyle = convertRGB(this.color, this.alpha);
+        context.strokeStyle = convertRGBToRGBA(this.color, this.alpha);
+        context.lineWidth = this.width;
         context.stroke();
     }
 }
@@ -172,10 +197,10 @@ function createNodes() {
     // Calculate the amount of nodes
     amountOfNodes = (width * height) / INVERSE_NODE_DENSITY;
 
+    // Create nodes
     for (i = 0; i < amountOfNodes; i++) {
-        x = Math.random();
-        y = Math.random();
-        node = new Node(x, y, NODE_RADIUS);
+        node = new Node();
+        node.spawn();
         nodes.push(node);
     }
 }
@@ -237,7 +262,7 @@ function updateEdges() {
  * Converts a given color in rgb format to rgba format with the given alpha
  * value.
  */
-function convertRGB(rgb, alpha) {
+function convertRGBToRGBA(rgb, alpha) {
     return rgb.replace(')', ', ' + alpha + ')').replace('rgb', 'rgba');
 }
 
