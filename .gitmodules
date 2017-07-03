@@ -1,0 +1,3 @@
+[submodule "public/js/Nedge"]
+	path = public/js/Nedge
+	url = https://github.com/Dacaspex/Nedge.git

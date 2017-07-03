@@ -40,5 +40,5 @@
 @endsection
 
 @section('javascript')
-<script src="{{ asset('js/jumbotron.js') }}"></script>
+<script src="{{ asset('js/Nedge/nedge.js') }}"></script>
 @endsection
