@@ -5,7 +5,6 @@
 @endsection
 
 @section('content')
-
 <!-- Main content of home page -->
 <div class="wrapper">
 	<div class="row">
@@ -33,5 +32,9 @@
 		</div>
 	</div>
 </div>
+@endsection
 
+@section('javascript')
+	<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=h2tytkrqo6rot015o1rssrr3xfr82gbtnqpwr47pwyu75r8b"></script>
+	<script>tinymce.init({ selector:'textarea' });</script>
 @endsection

@@ -13,7 +13,7 @@
 			<h1>{{ $post->title }}</h1>
 			<h6>{{ $post->created_at }}</h6>
 			<p>
-				{!! nl2br(e($post->body)) !!}
+				{!! $post->body !!}
 			</p>
 		</div>
 	</div>
